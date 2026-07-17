@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'screens/dashboard_screen.dart';
+import 'services/localization_service.dart';
 import 'theme/app_theme.dart';
 
 void main() {
@@ -11,11 +13,27 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Dakrosa Portal',
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.lightTheme,
-      home: const DashboardScreen(),
+    return ValueListenableBuilder<Locale>(
+      valueListenable: appLocale,
+      builder: (context, locale, child) {
+        return MaterialApp(
+          title: 'Dakrosa Portal',
+          debugShowCheckedModeBanner: false,
+          theme: AppTheme.lightTheme,
+          locale: locale,
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('vi'),
+            Locale('en'),
+          ],
+          home: const DashboardScreen(),
+        );
+      },
     );
   }
 }
